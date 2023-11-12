@@ -15,3 +15,9 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+  profiles:
+    include: secret
+
+kakao:
+  api:
+    key: ${KAKAO_API_KEY}
