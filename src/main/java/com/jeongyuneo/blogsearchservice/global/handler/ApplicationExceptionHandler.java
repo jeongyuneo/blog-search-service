@@ -30,4 +30,12 @@ public class ApplicationExceptionHandler {
                 .badRequest()
                 .body(ErrorResponse.from(ApplicationExceptionInfo.INVALID_REQUEST_PARAMETER.getCode(), exception.getMessage()));
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    protected ResponseEntity<ErrorResponse> handleException(RuntimeException exception) {
+        log.info("{}: {}", exception.getClass().getSimpleName(), exception.getMessage(), exception);
+        return ResponseEntity
+                .internalServerError()
+                .body(ErrorResponse.from(exception));
+    }
 }
