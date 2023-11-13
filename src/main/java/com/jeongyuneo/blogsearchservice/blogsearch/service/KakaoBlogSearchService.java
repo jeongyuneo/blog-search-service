@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -31,14 +32,17 @@ public class KakaoBlogSearchService implements BlogSearchService {
     private static final String SORT_PARAMETER_NAME = "sort";
     private static final String PAGE_PARAMETER_NAME = "page";
 
+    private final BlogSearchRankingService blogSearchRankingService;
     private final RestTemplate restTemplate;
 
     @Value("${kakao.api.key}")
     private String API_KEY;
 
     @Override
+    @Transactional
     public BlogSearchResponse searchByQuery(BlogSearchServiceRequest request) {
         KakaoBlogSearchResponse kakaoBlogSearchResponse = requestBookSearch(getRequestUrl(request), new HttpEntity<>(getHeaders()));
+        blogSearchRankingService.increaseSearchCount(request.getQuery());
         List<Document> documents = Objects.requireNonNull(kakaoBlogSearchResponse).getDocuments();
         if (documents.isEmpty()) {
             return BlogSearchResponse.empty();
