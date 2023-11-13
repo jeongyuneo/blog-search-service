@@ -1,7 +1,9 @@
 package com.jeongyuneo.blogsearchservice.blogsearch.controller;
 
+import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchRankingResponse;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchResponse;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchServiceRequest;
+import com.jeongyuneo.blogsearchservice.blogsearch.service.BlogSearchRankingService;
 import com.jeongyuneo.blogsearchservice.blogsearch.service.BlogSearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,7 @@ public class BlogSearchController {
     private static final int MAX_PAGE = 50;
 
     private final BlogSearchService blogSearchService;
+    private final BlogSearchRankingService blogSearchRankingService;
 
     @GetMapping
     public ResponseEntity<BlogSearchResponse> searchByQuery(
@@ -36,5 +39,12 @@ public class BlogSearchController {
         return ResponseEntity
                 .ok()
                 .body(blogSearchService.searchByQuery(BlogSearchServiceRequest.of(query, sort, page, page == MAX_PAGE)));
+    }
+
+    @GetMapping("/ranking")
+    public ResponseEntity<BlogSearchRankingResponse> getSearchRanking() {
+        return ResponseEntity
+                .ok()
+                .body(blogSearchRankingService.getSearchRanking());
     }
 }
