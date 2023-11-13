@@ -26,7 +26,6 @@ public class BlogSearchResponseElement {
                 document.getUrl(),
                 document.getThumbnail(),
                 document.getDatetime()
-//                LocalDateTime.ofInstant(document.getDatetime().toInstant(), ZoneId.systemDefault())
         );
     }
 }
