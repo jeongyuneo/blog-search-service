@@ -4,8 +4,6 @@ import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchResponse;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchServiceRequest;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.kakaoapi.Document;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.kakaoapi.KakaoBlogSearchResponse;
-import com.jeongyuneo.blogsearchservice.global.exception.ApplicationExceptionInfo;
-import com.jeongyuneo.blogsearchservice.global.exception.InvalidArgumentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -13,7 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -62,13 +59,8 @@ public class KakaoBlogSearchService implements BlogSearchService {
     }
 
     private KakaoBlogSearchResponse requestBookSearch(String requestUri, HttpEntity<HttpHeaders> httpEntity) {
-        try {
-            return restTemplate.exchange(requestUri, HttpMethod.GET, httpEntity, KakaoBlogSearchResponse.class)
-                    .getBody();
-        } catch (HttpClientErrorException exception) {
-            exception.printStackTrace();
-            throw new InvalidArgumentException(ApplicationExceptionInfo.KAKAO_API_REQUEST_FAIL);
-        }
+        return restTemplate.exchange(requestUri, HttpMethod.GET, httpEntity, KakaoBlogSearchResponse.class)
+                .getBody();
     }
 
     private boolean hasNoNext(BlogSearchServiceRequest request, KakaoBlogSearchResponse kakaoBlogSearchResponse) {
