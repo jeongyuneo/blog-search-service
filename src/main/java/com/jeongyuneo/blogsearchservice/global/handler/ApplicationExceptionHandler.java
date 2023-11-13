@@ -24,7 +24,7 @@ public class ApplicationExceptionHandler {
     }
 
     @ExceptionHandler({MethodArgumentTypeMismatchException.class, ConstraintViolationException.class})
-    protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(Exception exception) {
+    protected ResponseEntity<ErrorResponse> handleMethodArgumentValidationException(Exception exception) {
         log.info("{}: {}", exception.getClass().getSimpleName(), exception.getMessage(), exception);
         return ResponseEntity
                 .badRequest()
