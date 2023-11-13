@@ -1,6 +1,7 @@
 package com.jeongyuneo.blogsearchservice.blogsearch.service;
 
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchResponse;
+import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchResponseElement;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchServiceRequest;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.kakaoapi.Document;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.kakaoapi.KakaoBlogSearchResponse;
@@ -16,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -42,9 +44,9 @@ public class KakaoBlogSearchService implements BlogSearchService {
             return BlogSearchResponse.empty();
         }
         if (hasNoNext(request, kakaoBlogSearchResponse)) {
-            return BlogSearchResponse.from(documents);
+            return BlogSearchResponse.from(toBlogSearchResponseElement(documents));
         }
-        return BlogSearchResponse.of(documents, getNextUrl(request));
+        return BlogSearchResponse.of(toBlogSearchResponseElement(documents), getNextUrl(request));
     }
 
     private String getRequestUrl(BlogSearchServiceRequest request) {
@@ -78,5 +80,11 @@ public class KakaoBlogSearchService implements BlogSearchService {
                 .queryParam(PAGE_PARAMETER_NAME, page)
                 .build()
                 .toString();
+    }
+
+    private List<BlogSearchResponseElement> toBlogSearchResponseElement(List<Document> documents) {
+        return documents.stream()
+                .map(BlogSearchResponseElement::from)
+                .collect(Collectors.toList());
     }
 }
