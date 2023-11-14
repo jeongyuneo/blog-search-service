@@ -26,6 +26,8 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 class KakaoBlogSearchServiceTest {
 
     private static final String KAKAO_BLOG_SEARCH_URL = "https://dapi.kakao.com/v2/search/blog";
+    private static final int MAX_PAGE = 50;
+    private static final int MAX_SIZE_OF_PAGE = 10;
 
     @MockBean
     private KakaoBlogSearchService kakaoBlogSearchService;
@@ -58,6 +60,24 @@ class KakaoBlogSearchServiceTest {
             // then
             assertAll(
                     () -> assertThat(response.getDocuments()).isEmpty(),
+                    () -> assertThat(response.getNext()).isEmpty(),
+                    () -> verify(blogSearchRankingService).increaseSearchCount(query)
+            );
+        }
+
+        @Test
+        void 검색결과가_마지막페이지면_검색결과와_빈_다음페이지URL이_반환된다() throws IOException {
+            // given
+            String query = "springboot";
+            String sort = "accuracy";
+            int page = 50;
+            String expectedResult = FileReader.readJson("resultHasNoNextPage.json");
+            willRequest(query, sort, page, expectedResult);
+            // when
+            BlogSearchResponse response = kakaoBlogSearchService.searchByQuery(BlogSearchServiceRequest.of(query, sort, page, page == MAX_PAGE));
+            // then
+            assertAll(
+                    () -> assertThat(response.getDocuments()).hasSizeLessThanOrEqualTo(MAX_SIZE_OF_PAGE),
                     () -> assertThat(response.getNext()).isEmpty(),
                     () -> verify(blogSearchRankingService).increaseSearchCount(query)
             );
