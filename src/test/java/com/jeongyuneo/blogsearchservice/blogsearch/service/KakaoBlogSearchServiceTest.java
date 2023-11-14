@@ -83,6 +83,24 @@ class KakaoBlogSearchServiceTest {
             );
         }
 
+        @Test
+        void 검색결과가_10개이하면_검색결과와_빈_다음페이지URL이_반환된다() throws IOException {
+            // given
+            String query = "springboot";
+            String sort = "accuracy";
+            int page = 1;
+            String expectedResult = FileReader.readJson("resultHasLessThan10Contents.json");
+            willRequest(query, sort, page, expectedResult);
+            // when
+            BlogSearchResponse response = kakaoBlogSearchService.searchByQuery(BlogSearchServiceRequest.of(query, sort, page, page == MAX_PAGE));
+            // then
+            assertAll(
+                    () -> assertThat(response.getDocuments()).hasSizeLessThanOrEqualTo(MAX_SIZE_OF_PAGE),
+                    () -> assertThat(response.getNext()).isEmpty(),
+                    () -> verify(blogSearchRankingService).increaseSearchCount(query)
+            );
+        }
+
         private void willRequest(String query, String sort, int page, String expectedResult) {
             mockServer.expect(requestTo(KAKAO_BLOG_SEARCH_URL + "?query=" + query + "&sort=" + sort + "&page=" + page))
                     .andExpect(method(HttpMethod.GET))
