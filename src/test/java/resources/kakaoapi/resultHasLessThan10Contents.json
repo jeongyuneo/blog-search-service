@@ -1,0 +1,73 @@
+{
+    "meta": {
+        "total_count": 2712,
+        "pageable_count": 787,
+        "is_end": true
+    },
+    "documents": [
+        {
+            "title": "[BACKEND]<b>SpringBoot</b> 웹 개발 환경 구축",
+            "contents": "※ <b>SPRINGBOOT</b>_STUDY 워크스페이스를 생성합니다. 1. 첫번째 스프링 부트 프로젝트 생성 방법 : 스프링 부트 스타터(https://start.spring.io/) 에서 생성 1) 스프링 부트 스타터(https://start.spring.io/) 웹 주소 접속 Project : Maven Project Language : Java Spring Boot : 2.7.2 groupId(Group...",
+            "url": "https://twinkle-cho.tistory.com/322",
+            "blogname": "조반짝의 도전일지",
+            "thumbnail": "https://search2.kakaocdn.net/argon/130x130_85_c/H3dpM79KSLT",
+            "datetime": "2023-10-12T03:18:36.000+00:00"
+        },
+        {
+            "title": "[<b>SpringBoot</b>] 웹개발(5) - thymleaf 적용",
+            "contents": "2023.11.09 - [공부해야할 것/java] - [<b>SpringBoot</b>] 웹 프로젝트 만들기(4) - 템플릿 적용 [<b>SpringBoot</b>] 웹 프로젝트 만들기(4) - 템플릿 적용 https://kkkkims.tistory.com/53 [<b>springBoot</b>] 웹 프로젝트 만들기(3) - bootstrap적용 https://kkkkims.tistory.com/52 [<b>springBoot</b>] 웹프로젝트 만들기(2) - DB연결 설정...",
+            "url": "https://kkkkims.tistory.com/55",
+            "blogname": "낌X4",
+            "thumbnail": "https://search1.kakaocdn.net/argon/130x130_85_c/FLG9j2dSXSl",
+            "datetime": "2023-11-09T13:32:01.000+00:00"
+        },
+        {
+            "title": "Hello <b>SpringBoot</b>!",
+            "contents": "2.7.16 으로 라이브러리는 사진과 같이 3개만 체크하고 생성합니다. 프로젝트 생성이 완료된 상태 ✅ UTF-8 설정 : 한글 깨짐 방지 ✅ 기타 설정 📖 요약 # <b>SpringBoot</b> 프로젝트 생성 1) 웹 제작(Spring initializer) : http://start.spring.io - Project 빌드 : Gradle - Groovy - spring boot 버전 : 2.7.16 선택...",
+            "url": "https://devjunyeok.tistory.com/171",
+            "blogname": "Just Do It!",
+            "thumbnail": "https://search3.kakaocdn.net/argon/130x130_85_c/KcNZkOTENHW",
+            "datetime": "2023-10-04T06:47:56.000+00:00"
+        },
+        {
+            "title": "AWS Secrets &amp; ECS <b>SpringBoot</b> 설정 (1): Secret 생성",
+            "contents": "이전 포스트에서는 로컬 환경에서 RDS를 <b>SpringBoot</b> 프로젝트와 연결하는 데 성공했다. 이번에는 AWS의 CodePipeline을 CI/CD구축을 해서 ECS로 배포에 성공한 <b>SpringBoot</b> 프로젝트의 tomcat에 이 RDS(postgreSQL)를 연결해 주도록 하자 이 포스트에서는 우선 Secret을 생성하는 방법에 대해서 소개한다. 1. AWS Secrets...",
+            "url": "https://curiousjinan.tistory.com/131",
+            "blogname": "개발자의 서랍",
+            "thumbnail": "https://search1.kakaocdn.net/argon/130x130_85_c/Inj5sKSyp8j",
+            "datetime": "2023-11-03T07:40:11.000+00:00"
+        },
+        {
+            "title": "[협업프로젝트] <b>SpringBoot</b> 프로젝트 EC2, RDS 적용",
+            "contents": "서론 https://cobi-98.tistory.com/73 [협업프로젝트] <b>SpringBoot</b> 프로젝트 EC2 배포하기 서론 프론트엔드와 rest api 협업 프로젝트를 진행하고 있어, 백엔드 서버를 배포해야 한다. github에 있는 프로젝트를 AWS EC2 ubuntu 환경에서 git clone으로 내려받아 jar 파일을 빌드하여 서버를 배포해 cobi-98.tistory.com...",
+            "url": "https://cobi-98.tistory.com/74",
+            "blogname": "은로그",
+            "thumbnail": "https://search3.kakaocdn.net/argon/130x130_85_c/DNXYWO3BqHh",
+            "datetime": "2023-10-30T07:30:26.000+00:00"
+        },
+        {
+            "title": "[<b>SpringBoot</b>, react] 전기차 충전소 관련 페이지 제작 프로젝트 2",
+            "contents": "프로그래밍 세계를 탐구합시다. 전기차 충전소 관련 페이지 제작 프로젝트를 수행했습니다. <b>SpringBoot</b>, react 활용하여 페이지를 구성하였습니다. 페이지 유입을 증가시키기 위해 게임, 구독 서비스, 뉴스, 유튜브 등 여러 콘텐츠를 추가하였습니다. 사용자에게 장기적인 이득과 편의성을 제공하기 위한 페이지를...",
+            "url": "https://ityranno.tistory.com/44",
+            "blogname": "🦖 ITYRANNO 아이티라노",
+            "thumbnail": "https://search2.kakaocdn.net/argon/130x130_85_c/E5ZQ3369SWb",
+            "datetime": "2023-11-09T01:49:18.000+00:00"
+        },
+        {
+            "title": "ELK 스택을 사용해 <b>Springboot</b> 로그 수집하기",
+            "contents": "ELK 스택을 사용해 <b>Springboot</b> 로그 수집하기 분산환경을 사용해 서버를 운영하고 있다면, 몇 개 또는 수십개의 서버의 로그를 한번에 보기 힘든 상황이 나타납니다. 예를 들면 터미널을 여러 개로 분할해서 각 서버에 접속 후 로그를 찾는다거나… (제가 그러고 있었죠…) 물론, cloudWatch와 같이 서버의 console에...",
+            "url": "https://heekng.tistory.com/238",
+            "blogname": "수학하다 개발하기",
+            "thumbnail": "https://search2.kakaocdn.net/argon/130x130_85_c/E5Jn49nnQ31",
+            "datetime": "2023-11-05T08:13:23.000+00:00"
+        },
+        {
+            "title": "<b>Springboot</b> + Mysql + Docker 연동하기 1",
+            "contents": "1. Doker에서 <b>Springboot</b>, Mysql 연동하기 Doker에서 <b>Springboot</b>,Mysql을 연동하여 배포하면 각각의 컨테이너가 필요 여기서는 브릿지 네트워크(bridge network)를 생성하여 사용하는 방법 Doker의 기본 네트워크 모드가 브릿지 네크워크 Doker 네트워크 생성 -&gt; <b>springboot</b> 이미지, mysql 이미지를 해당 네트워크를...",
+            "url": "https://hello-immh.tistory.com/160",
+            "blogname": "내가_필요해서_하는_기록장",
+            "thumbnail": "https://search3.kakaocdn.net/argon/130x130_85_c/FcZsJYp7Xco",
+            "datetime": "2023-11-10T13:49:07.000+00:00"
+        }
+    ]
+}
