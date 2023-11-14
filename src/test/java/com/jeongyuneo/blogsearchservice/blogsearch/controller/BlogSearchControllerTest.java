@@ -1,9 +1,8 @@
 package com.jeongyuneo.blogsearchservice.blogsearch.controller;
 
-import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchResponse;
-import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchResponseElement;
-import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchServiceRequest;
+import com.jeongyuneo.blogsearchservice.blogsearch.dto.*;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.kakaoapi.Document;
+import com.jeongyuneo.blogsearchservice.blogsearch.entity.BlogSearch;
 import com.jeongyuneo.blogsearchservice.blogsearch.service.BlogSearchRankingService;
 import com.jeongyuneo.blogsearchservice.blogsearch.service.BlogSearchService;
 import com.jeongyuneo.blogsearchservice.global.dto.ErrorResponse;
@@ -35,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class BlogSearchControllerTest extends ApiDocument {
 
     private static final String BLOG_SEARCH_ROOT_URI = "/blogs/search";
+    private static final String RANKING = "/ranking";
 
     @MockBean
     private BlogSearchService blogSearchService;
@@ -77,6 +77,25 @@ class BlogSearchControllerTest extends ApiDocument {
         블로그_검색_요청이_실패한다(resultActions, errorResponse);
     }
 
+    @Test
+    void 인기_검색어_상위_10개를_반환한다() throws Exception {
+        // given
+        BlogSearch blogSearch1 = BlogSearch.from("키워드1");
+        blogSearch1.increase();
+        blogSearch1.increase();
+        blogSearch1.increase();
+        BlogSearch blogSearch2 = BlogSearch.from("키워드2");
+        blogSearch2.increase();
+        blogSearch2.increase();
+        List<BlogSearchRankingResponseElement> elements = List.of(BlogSearchRankingResponseElement.from(blogSearch1), BlogSearchRankingResponseElement.from(blogSearch2));
+        BlogSearchRankingResponse blogSearchRankingResponse = BlogSearchRankingResponse.from(elements);
+        willReturn(blogSearchRankingResponse).given(blogSearchRankingService).getSearchRanking();
+        // when
+        ResultActions resultActions = 인기_검색어_상위10개를_요청한다();
+        // then
+        인기_검색어_상위10개를_요청이_성공한다(resultActions, blogSearchRankingResponse);
+    }
+
     private ResultActions 블로그_검색을_요청한다() throws Exception {
         return mockMvc.perform(get(CONTEXT_PATH + BLOG_SEARCH_ROOT_URI)
                 .contextPath(CONTEXT_PATH)
@@ -97,6 +116,20 @@ class BlogSearchControllerTest extends ApiDocument {
                         .andExpect(status().isBadRequest())
                         .andExpect(content().json(toJson(errorResponse))),
                 "blog-search-fail"
+        );
+    }
+
+    private ResultActions 인기_검색어_상위10개를_요청한다() throws Exception {
+        return mockMvc.perform(get(CONTEXT_PATH + BLOG_SEARCH_ROOT_URI + RANKING)
+                .contextPath(CONTEXT_PATH)
+        );
+    }
+
+    private void 인기_검색어_상위10개를_요청이_성공한다(ResultActions resultActions, BlogSearchRankingResponse blogSearchRankingResponse) throws Exception {
+        printAndMakeSnippet(resultActions
+                        .andExpect(status().isOk())
+                        .andExpect(content().json(toJson(blogSearchRankingResponse))),
+                "get-search-ranking-success"
         );
     }
 }
