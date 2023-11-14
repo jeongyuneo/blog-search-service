@@ -85,5 +85,21 @@ class BlogSearchRankingServiceTest {
             // then
             assertThat(searchRanking.getBlogSearchRankings()).hasSizeLessThan(MAX_BLOG_SEARCH_RANKING_COUNT);
         }
+
+        @Test
+        void 검색기록이_10개초과면_검색기록을_10개만_반환한다() {
+            // given
+            List<BlogSearch> blogSearches = List.of(
+                    BlogSearch.from("키워드1"), BlogSearch.from("키워드2"), BlogSearch.from("키워드3"),
+                    BlogSearch.from("키워드4"), BlogSearch.from("키워드5"), BlogSearch.from("키워드6"),
+                    BlogSearch.from("키워드7"), BlogSearch.from("키워드8"), BlogSearch.from("키워드9"),
+                    BlogSearch.from("키워드10"), BlogSearch.from("키워드11"), BlogSearch.from("키워드12")
+            );
+            blogSearchRepository.saveAll(blogSearches);
+            // when
+            BlogSearchRankingResponse searchRanking = blogSearchRankingService.getSearchRanking();
+            // then
+            assertThat(searchRanking.getBlogSearchRankings()).hasSize(MAX_BLOG_SEARCH_RANKING_COUNT);
+        }
     }
 }
