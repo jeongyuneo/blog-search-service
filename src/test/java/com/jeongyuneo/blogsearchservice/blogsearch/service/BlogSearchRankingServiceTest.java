@@ -1,5 +1,6 @@
 package com.jeongyuneo.blogsearchservice.blogsearch.service;
 
+import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchRankingResponse;
 import com.jeongyuneo.blogsearchservice.blogsearch.entity.BlogSearch;
 import com.jeongyuneo.blogsearchservice.blogsearch.repository.BlogSearchRepository;
 import org.junit.jupiter.api.*;
@@ -53,6 +54,18 @@ class BlogSearchRankingServiceTest {
                             .orElseThrow()
                             .getCount())
                     .isEqualTo(2);
+        }
+    }
+
+    @Nested
+    class 인기_검색어_목록_조회할_때 {
+
+        @Test
+        void 검색기록이_없으면_빈_리스트를_반환한다() {
+            // when
+            BlogSearchRankingResponse searchRanking = blogSearchRankingService.getSearchRanking();
+            // then
+            assertThat(searchRanking.getBlogSearchRankings()).isEmpty();
         }
     }
 }
