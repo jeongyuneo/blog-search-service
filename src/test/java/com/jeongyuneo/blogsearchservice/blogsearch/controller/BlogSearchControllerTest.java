@@ -6,6 +6,9 @@ import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchServiceRequest;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.kakaoapi.Document;
 import com.jeongyuneo.blogsearchservice.blogsearch.service.BlogSearchRankingService;
 import com.jeongyuneo.blogsearchservice.blogsearch.service.BlogSearchService;
+import com.jeongyuneo.blogsearchservice.global.dto.ErrorResponse;
+import com.jeongyuneo.blogsearchservice.global.exception.ApplicationExceptionInfo;
+import com.jeongyuneo.blogsearchservice.global.exception.InvalidArgumentException;
 import com.jeongyuneo.blogsearchservice.global.support.ApiDocument;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -21,6 +24,7 @@ import java.util.stream.IntStream;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -62,6 +66,17 @@ class BlogSearchControllerTest extends ApiDocument {
         블로그_검색_요청이_성공한다(resultActions, blogSearchResponse);
     }
 
+    @Test
+    void 유효하지_않은_파라미터로_요청하면_예외가_발생한다() throws Exception {
+        // given
+        ErrorResponse errorResponse = ErrorResponse.from(ApplicationExceptionInfo.INVALID_REQUEST_PARAMETER);
+        willThrow(new InvalidArgumentException(ApplicationExceptionInfo.INVALID_REQUEST_PARAMETER)).given(blogSearchService).searchByQuery(any(BlogSearchServiceRequest.class));
+        // when
+        ResultActions resultActions = 블로그_검색을_요청한다();
+        // then
+        블로그_검색_요청이_실패한다(resultActions, errorResponse);
+    }
+
     private ResultActions 블로그_검색을_요청한다() throws Exception {
         return mockMvc.perform(get(CONTEXT_PATH + BLOG_SEARCH_ROOT_URI)
                 .contextPath(CONTEXT_PATH)
@@ -74,6 +89,14 @@ class BlogSearchControllerTest extends ApiDocument {
                         .andExpect(status().isOk())
                         .andExpect(content().json(toJson(blogSearchResponse))),
                 "blog-search-success"
+        );
+    }
+
+    private void 블로그_검색_요청이_실패한다(ResultActions resultActions, ErrorResponse errorResponse) throws Exception {
+        printAndMakeSnippet(resultActions
+                        .andExpect(status().isBadRequest())
+                        .andExpect(content().json(toJson(errorResponse))),
+                "blog-search-fail"
         );
     }
 }
