@@ -1,5 +1,6 @@
 package com.jeongyuneo.blogsearchservice.blogsearch.service;
 
+import com.jeongyuneo.blogsearchservice.blogsearch.entity.BlogSearch;
 import com.jeongyuneo.blogsearchservice.blogsearch.repository.BlogSearchRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,21 @@ class BlogSearchRankingServiceTest {
                             .orElseThrow()
                             .getCount())
                     .isEqualTo(INITIAL_BLOG_SEARCH_COUNT);
+        }
+
+        @Test
+        void 저장된_검색기록이_있으면_검색횟수가_증가된다() {
+            // given
+            String keyword = "키워드";
+            blogSearchRepository.save(BlogSearch.from(keyword));
+            // when
+            blogSearchRankingService.increaseSearchCount(keyword);
+            // then
+            assertThat(
+                    blogSearchRepository.findByKeyword(keyword)
+                            .orElseThrow()
+                            .getCount())
+                    .isEqualTo(2);
         }
     }
 }
