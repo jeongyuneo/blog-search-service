@@ -3,10 +3,12 @@ package com.jeongyuneo.blogsearchservice.blogsearch.service;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchResponse;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchResponseElement;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchServiceRequest;
+import com.jeongyuneo.blogsearchservice.blogsearch.dto.event.IncreaseBlogSearchCountEvent;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.kakaoapi.Document;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.kakaoapi.KakaoBlogSearchResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -32,7 +34,7 @@ public class KakaoBlogSearchService implements BlogSearchService {
     private static final String SORT_PARAMETER_NAME = "sort";
     private static final String PAGE_PARAMETER_NAME = "page";
 
-    private final BlogSearchRankingService blogSearchRankingService;
+    private final ApplicationEventPublisher eventPublisher;
     private final RestTemplate restTemplate;
 
     @Value("${kakao.api.key}")
@@ -41,8 +43,8 @@ public class KakaoBlogSearchService implements BlogSearchService {
     @Override
     @Transactional
     public BlogSearchResponse searchByQuery(BlogSearchServiceRequest request) {
+        eventPublisher.publishEvent(IncreaseBlogSearchCountEvent.from(request.getQuery()));
         KakaoBlogSearchResponse kakaoBlogSearchResponse = requestBookSearch(getRequestUrl(request), new HttpEntity<>(getHeaders()));
-        blogSearchRankingService.increaseSearchCount(request.getQuery());
         List<Document> documents = Objects.requireNonNull(kakaoBlogSearchResponse).getDocuments();
         if (documents.isEmpty()) {
             return BlogSearchResponse.empty();
