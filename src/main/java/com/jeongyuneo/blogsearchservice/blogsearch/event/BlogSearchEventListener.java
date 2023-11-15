@@ -1,6 +1,6 @@
 package com.jeongyuneo.blogsearchservice.blogsearch.event;
 
-import com.jeongyuneo.blogsearchservice.blogsearch.dto.event.IncreaseBlogSearchCountEvent;
+import com.jeongyuneo.blogsearchservice.blogsearch.dto.event.BlogSearchEvent;
 import com.jeongyuneo.blogsearchservice.blogsearch.service.BlogSearchRankingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -13,7 +13,7 @@ public class BlogSearchCountEventListener {
     private final BlogSearchRankingService blogSearchRankingService;
 
     @EventListener
-    public void increase(IncreaseBlogSearchCountEvent event) {
+    public void increase(BlogSearchEvent event) {
         blogSearchRankingService.increaseSearchCount(event.getKeyword());
     }
 }

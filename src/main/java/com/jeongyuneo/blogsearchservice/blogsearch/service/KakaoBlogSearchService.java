@@ -3,7 +3,7 @@ package com.jeongyuneo.blogsearchservice.blogsearch.service;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchResponse;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchResponseElement;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchServiceRequest;
-import com.jeongyuneo.blogsearchservice.blogsearch.dto.event.IncreaseBlogSearchCountEvent;
+import com.jeongyuneo.blogsearchservice.blogsearch.dto.event.BlogSearchEvent;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.kakaoapi.Document;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.kakaoapi.KakaoBlogSearchResponse;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class KakaoBlogSearchService implements BlogSearchService {
     @Override
     @Transactional
     public BlogSearchResponse searchByQuery(BlogSearchServiceRequest request) {
-        eventPublisher.publishEvent(IncreaseBlogSearchCountEvent.from(request.getQuery()));
+        eventPublisher.publishEvent(BlogSearchEvent.from(request.getQuery()));
         KakaoBlogSearchResponse kakaoBlogSearchResponse = requestBookSearch(getRequestUrl(request), new HttpEntity<>(getHeaders()));
         List<Document> documents = Objects.requireNonNull(kakaoBlogSearchResponse).getDocuments();
         if (documents.isEmpty()) {

@@ -5,11 +5,11 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class IncreaseBlogSearchCountEvent {
+public class BlogSearchEvent {
 
     private final String keyword;
 
-    public static IncreaseBlogSearchCountEvent from(String keyword) {
-        return new IncreaseBlogSearchCountEvent(keyword);
+    public static BlogSearchEvent from(String keyword) {
+        return new BlogSearchEvent(keyword);
     }
 }
