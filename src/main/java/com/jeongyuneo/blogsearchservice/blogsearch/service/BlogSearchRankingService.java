@@ -4,6 +4,7 @@ import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchRankingResponse
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchRankingResponseElement;
 import com.jeongyuneo.blogsearchservice.blogsearch.entity.BlogSearch;
 import com.jeongyuneo.blogsearchservice.blogsearch.repository.BlogSearchRepository;
+import com.jeongyuneo.blogsearchservice.global.support.DistributedLock;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ public class BlogSearchRankingService {
 
     private final BlogSearchRepository blogSearchRepository;
 
+    @DistributedLock(key = "#keyword")
     public void increaseSearchCount(String keyword) {
         BlogSearch blogSearch = blogSearchRepository.findByKeyword(keyword);
         if (blogSearch == null) {
