@@ -13,4 +13,14 @@ class BlogSearchTest {
         // then
         assertThat(blogSearch.getCount()).isOne();
     }
+
+    @Test
+    void 검색횟수가_증가하면_count가_1만큼_증가한다() {
+        // given
+        BlogSearch blogSearch = BlogSearch.from("키워드");
+        // when
+        blogSearch.increase();
+        // then
+        assertThat(blogSearch.getCount()).isEqualTo(2);
+    }
 }
