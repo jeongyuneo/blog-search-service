@@ -21,7 +21,7 @@ public class DistributedLockAdvisor {
     private static final String REDISSON_LOCK_PREFIX = "LOCK:";
 
     private final RedissonClient redissonClient;
-    private final AopForTransaction aopForTransaction;
+    private final TransactionForDistributedLock transactionForDistributedLock;
 
     @Around("@annotation(com.jeongyuneo.blogsearchservice.global.support.DistributedLock)")
     public Object lock(final ProceedingJoinPoint joinPoint) throws Throwable {
@@ -42,7 +42,7 @@ public class DistributedLockAdvisor {
             if (!available) {
                 return false;
             }
-            return aopForTransaction.proceed(joinPoint);
+            return transactionForDistributedLock.proceed(joinPoint);
         } finally {
             rLock.unlock();
         }
