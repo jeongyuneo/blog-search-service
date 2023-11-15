@@ -17,11 +17,12 @@ public class BlogSearchRankingService {
     private final BlogSearchRepository blogSearchRepository;
 
     public void increaseSearchCount(String keyword) {
-        blogSearchRepository.findByKeyword(keyword)
-                .ifPresentOrElse(
-                        BlogSearch::increase,
-                        () -> blogSearchRepository.save(BlogSearch.from(keyword))
-                );
+        BlogSearch blogSearch = blogSearchRepository.findByKeyword(keyword);
+        if (blogSearch == null) {
+            blogSearchRepository.save(BlogSearch.from(keyword));
+            return;
+        }
+        blogSearch.increase();
     }
 
     public BlogSearchRankingResponse getSearchRanking() {
