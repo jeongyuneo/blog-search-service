@@ -15,7 +15,7 @@ import javax.persistence.Entity;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE blog_search SET is_deleted = true WHERE blog_search_id = ?")
+@SQLDelete(sql = "UPDATE blog_search SET deleted = true WHERE blog_search_id = ?")
 @Where(clause = "deleted = false")
 @AttributeOverride(name = "id", column = @Column(name = "blog_search_id"))
 @Entity
