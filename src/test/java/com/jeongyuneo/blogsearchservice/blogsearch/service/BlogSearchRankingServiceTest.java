@@ -39,7 +39,6 @@ class BlogSearchRankingServiceTest {
             // then
             assertThat(
                     blogSearchRepository.findByKeyword(keyword)
-                            .orElseThrow()
                             .getCount())
                     .isEqualTo(INITIAL_BLOG_SEARCH_COUNT);
         }
@@ -54,7 +53,6 @@ class BlogSearchRankingServiceTest {
             // then
             assertThat(
                     blogSearchRepository.findByKeyword(keyword)
-                            .orElseThrow()
                             .getCount())
                     .isEqualTo(2);
         }
