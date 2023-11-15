@@ -5,7 +5,10 @@ import com.jeongyuneo.blogsearchservice.blogsearch.entity.BlogSearch;
 import com.jeongyuneo.blogsearchservice.blogsearch.repository.BlogSearchRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -29,34 +32,39 @@ class BlogSearchRankingServiceTest {
     @Autowired
     private BlogSearchRepository blogSearchRepository;
 
+    BlogSearch blogSearch;
+    String savedKeyword;
+
     @Nested
     class 검색_횟수_증가할_때 {
+
+        @BeforeEach
+        void setUp() {
+            savedKeyword = "저장된 키워드";
+            blogSearch = BlogSearch.from(savedKeyword);
+            blogSearchRepository.save(blogSearch);
+        }
 
         @Test
         void 저장된_검색기록이_없으면_검색기록이_생성된다() {
             // given
-            String keyword = "키워드";
+            String newKeyword = "새로운 키워드";
             // when
-            blogSearchRankingService.increaseSearchCount(keyword);
+            blogSearchRankingService.increaseSearchCount(newKeyword);
             // then
             assertThat(
-                    blogSearchRepository.findByKeyword(keyword)
-                            .orElseThrow()
+                    blogSearchRepository.findByKeyword(newKeyword)
                             .getCount())
                     .isEqualTo(INITIAL_BLOG_SEARCH_COUNT);
         }
 
         @Test
         void 저장된_검색기록이_있으면_검색횟수가_증가된다() {
-            // given
-            String keyword = "키워드";
-            blogSearchRepository.save(BlogSearch.from(keyword));
             // when
-            blogSearchRankingService.increaseSearchCount(keyword);
+            blogSearchRankingService.increaseSearchCount(savedKeyword);
             // then
             assertThat(
-                    blogSearchRepository.findByKeyword(keyword)
-                            .orElseThrow()
+                    blogSearchRepository.findByKeyword(savedKeyword)
                             .getCount())
                     .isEqualTo(2);
         }
