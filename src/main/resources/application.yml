@@ -20,4 +20,4 @@ spring:
 
 kakao:
   api:
-    key: ${KAKAO_API_KEY}
+    key: ${kakao.api.secret.key}
