@@ -19,6 +19,7 @@ public class ApplicationException extends RuntimeException {
         return exceptionInfo.getCode();
     }
 
+    @Override
     public String getMessage() {
         return exceptionInfo.getMessage();
     }
