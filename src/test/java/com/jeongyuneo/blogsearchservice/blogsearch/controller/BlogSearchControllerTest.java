@@ -2,7 +2,6 @@ package com.jeongyuneo.blogsearchservice.blogsearch.controller;
 
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.*;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.kakaoapi.Document;
-import com.jeongyuneo.blogsearchservice.blogsearch.entity.BlogSearch;
 import com.jeongyuneo.blogsearchservice.blogsearch.service.BlogSearchRankingService;
 import com.jeongyuneo.blogsearchservice.blogsearch.service.BlogSearchService;
 import com.jeongyuneo.blogsearchservice.global.dto.ErrorResponse;
@@ -80,14 +79,10 @@ class BlogSearchControllerTest extends ApiDocument {
     @Test
     void 인기_검색어_상위_10개를_반환한다() throws Exception {
         // given
-        BlogSearch blogSearch1 = BlogSearch.from("키워드1");
-        blogSearch1.increase();
-        blogSearch1.increase();
-        blogSearch1.increase();
-        BlogSearch blogSearch2 = BlogSearch.from("키워드2");
-        blogSearch2.increase();
-        blogSearch2.increase();
-        List<BlogSearchRankingResponseElement> elements = List.of(BlogSearchRankingResponseElement.from(blogSearch1), BlogSearchRankingResponseElement.from(blogSearch2));
+        List<BlogSearchRankingResponseElement> elements = List.of(
+                BlogSearchRankingResponseElement.of("키워드1", 3.0),
+                BlogSearchRankingResponseElement.of("키워드2", 2.0)
+        );
         BlogSearchRankingResponse blogSearchRankingResponse = BlogSearchRankingResponse.from(elements);
         willReturn(blogSearchRankingResponse).given(blogSearchRankingService).getSearchRanking();
         // when
