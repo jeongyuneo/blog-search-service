@@ -2,9 +2,8 @@ package com.jeongyuneo.blogsearchservice.blogsearch.service;
 
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchRankingResponse;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchRankingResponseElement;
-import com.jeongyuneo.blogsearchservice.blogsearch.entity.BlogSearch;
-import com.jeongyuneo.blogsearchservice.blogsearch.repository.BlogSearchRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,16 +14,14 @@ import java.util.stream.Collectors;
 @Service
 public class BlogSearchRankingService {
 
-    private final BlogSearchRepository blogSearchRepository;
+    private static final String BOOK_SEARCH_RANKING_KEY = "bookSearchRanking";
+    private static final int RANKING_INCREMENT_SCORE = 1;
+
+    private final RedisTemplate<String, String> redisTemplate;
 
     @Transactional
     public void increaseSearchCount(String keyword) {
-        BlogSearch blogSearch = blogSearchRepository.findByKeyword(keyword);
-        if (blogSearch == null) {
-            blogSearchRepository.save(BlogSearch.from(keyword));
-            return;
-        }
-        blogSearch.increase();
+        redisTemplate.opsForZSet().incrementScore(BOOK_SEARCH_RANKING_KEY, keyword, RANKING_INCREMENT_SCORE);
     }
 
     @Transactional(readOnly = true)
