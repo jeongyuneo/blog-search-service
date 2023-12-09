@@ -29,6 +29,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @RestClientTest(KakaoBlogSearchService.class)
 class KakaoBlogSearchServiceTest {
 
+    private static final String JSON_FILE_PATH = "src/test/resources/kakaoapi/";
     private static final String KAKAO_BLOG_SEARCH_URL = "https://dapi.kakao.com/v2/search/blog";
     private static final String BLOG_SEARCH_URL = "http://localhost:8080/api/v1/blogs/search";
     private static final int MAX_PAGE = 50;
@@ -58,7 +59,7 @@ class KakaoBlogSearchServiceTest {
             String query = "query-without-result";
             String sort = "recency";
             int page = 1;
-            String expectedResult = FileReader.readJson("resultEmpty.json");
+            String expectedResult = FileReader.readJson(JSON_FILE_PATH + "resultEmpty.json");
             willRequest(query, sort, page, expectedResult);
             willDoNothing().given(eventPublisher).publishEvent(any(BlogSearchEvent.class));
             // when
@@ -77,7 +78,7 @@ class KakaoBlogSearchServiceTest {
             String query = "springboot";
             String sort = "accuracy";
             int page = 50;
-            String expectedResult = FileReader.readJson("resultHasNoNextPage.json");
+            String expectedResult = FileReader.readJson(JSON_FILE_PATH + "resultHasNoNextPage.json");
             willRequest(query, sort, page, expectedResult);
             willDoNothing().given(eventPublisher).publishEvent(any(BlogSearchEvent.class));
             // when
@@ -96,7 +97,7 @@ class KakaoBlogSearchServiceTest {
             String query = "springboot";
             String sort = "accuracy";
             int page = 1;
-            String expectedResult = FileReader.readJson("resultHasLessThan10Contents.json");
+            String expectedResult = FileReader.readJson(JSON_FILE_PATH + "resultHasLessThan10Contents.json");
             willRequest(query, sort, page, expectedResult);
             willDoNothing().given(eventPublisher).publishEvent(any(BlogSearchEvent.class));
             // when
@@ -115,7 +116,7 @@ class KakaoBlogSearchServiceTest {
             String query = "springboot";
             String sort = "accuracy";
             int page = 5;
-            String expectedResult = FileReader.readJson("resultHasNextPage.json");
+            String expectedResult = FileReader.readJson(JSON_FILE_PATH + "resultHasNextPage.json");
             String expectedNext = BLOG_SEARCH_URL + "?query=" + query + "&sort=" + sort + "&page=" + (page + 1);
             willRequest(query, sort, page, expectedResult);
             willDoNothing().given(eventPublisher).publishEvent(any(BlogSearchEvent.class));
