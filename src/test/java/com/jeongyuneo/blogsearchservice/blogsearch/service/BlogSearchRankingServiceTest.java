@@ -36,7 +36,7 @@ class BlogSearchRankingServiceTest {
 
     @AfterEach
     void clear() {
-        zSetOperations.removeRange(BOOK_SEARCH_RANKING_KEY, 0, Long.MAX_VALUE);
+        zSetOperations.getOperations().delete(BOOK_SEARCH_RANKING_KEY);
     }
 
     @Nested
