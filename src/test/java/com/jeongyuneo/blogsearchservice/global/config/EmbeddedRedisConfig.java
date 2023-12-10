@@ -52,4 +52,13 @@ public class EmbeddedRedisConfig {
         }
         return !pidInfo.toString().isEmpty();
     }
+
+    private int findAvailablePort() throws IOException {
+        for (int port = 10000; port <= 65535; port++) {
+            if (!isRunning(executeGrepProcessCommand(port))) {
+                return port;
+            }
+        }
+        throw new IllegalArgumentException("Not Found Available port: 10000 ~ 65535");
+    }
 }
