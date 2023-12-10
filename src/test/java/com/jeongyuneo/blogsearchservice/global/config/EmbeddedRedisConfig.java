@@ -21,7 +21,7 @@ public class EmbeddedRedisConfig {
     @PostConstruct
     public void redisServer() throws Exception {
         redisServer = RedisServer.builder()
-                .port(isRunning(executeGrepProcessCommand(port)) ? findAvailablePort() : port)
+                .port(isRedisRunning(port) ? findAvailablePort() : port)
                 .build();
         redisServer.start();
     }
@@ -33,13 +33,8 @@ public class EmbeddedRedisConfig {
         }
     }
 
-    public int findAvailablePort() throws IOException {
-        for (int port = 10000; port <= 65535; port++) {
-            if (!isRunning(executeGrepProcessCommand(port))) {
-                return port;
-            }
-        }
-        throw new IllegalArgumentException("Not Found Available port: 10000 ~ 65535");
+    private boolean isRedisRunning(int port) throws IOException {
+        return isRunning(executeGrepProcessCommand(port));
     }
 
     private Process executeGrepProcessCommand(int port) throws IOException {
