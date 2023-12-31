@@ -1,4 +1,4 @@
-package com.jeongyuneo.blogsearchservice.blogsearch.dto.event;
+package com.jeongyuneo.blogsearchservice.blogsearch.event;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

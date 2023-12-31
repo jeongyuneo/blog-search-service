@@ -2,7 +2,7 @@ package com.jeongyuneo.blogsearchservice.blogsearch.service;
 
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchResponse;
 import com.jeongyuneo.blogsearchservice.blogsearch.dto.BlogSearchServiceRequest;
-import com.jeongyuneo.blogsearchservice.blogsearch.dto.event.BlogSearchEvent;
+import com.jeongyuneo.blogsearchservice.blogsearch.event.BlogSearchEvent;
 import com.jeongyuneo.blogsearchservice.global.util.FileReader;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;

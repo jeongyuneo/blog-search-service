@@ -1,6 +1,5 @@
 package com.jeongyuneo.blogsearchservice.blogsearch.event;
 
-import com.jeongyuneo.blogsearchservice.blogsearch.dto.event.BlogSearchEvent;
 import com.jeongyuneo.blogsearchservice.blogsearch.service.BlogSearchRankingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
