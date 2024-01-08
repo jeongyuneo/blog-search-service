@@ -21,7 +21,7 @@ public class BlogSearchResponseElement {
     public static BlogSearchResponseElement from(Document document) {
         return new BlogSearchResponseElement(
                 document.getTitle(),
-                document.getBlogname(),
+                document.getBlogName(),
                 document.getContents(),
                 document.getUrl(),
                 document.getThumbnail(),
