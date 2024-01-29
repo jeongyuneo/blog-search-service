@@ -48,7 +48,7 @@ class BlogSearchControllerTest extends ApiDocument {
                 .title("블로그 글 제목")
                 .contents("블로그 글 요약")
                 .url("블로그 글 url")
-                .blogname("블로그 이름")
+                .blogName("블로그 이름")
                 .thumbnail("검색 시스템에서 추출한 대표 미리보기 이미지 URL")
                 .datetime("2023-11-11T10:30:000+09:00")
                 .build();
